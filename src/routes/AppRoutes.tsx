@@ -3,12 +3,9 @@ import { paths } from "./paths";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import Dashboard from "../pages/Dashboard/Dashboard";
 
 export default function AppRoutes() {
-  function Dashboard() {
-    return <div>Dashboard</div>;
-  }
-
   return (
     <BrowserRouter>
       <Routes>
