@@ -318,7 +318,12 @@ const Dashboard = () => {
                   </div>
 
                   <div className="obra-footer">
-                    <button className="btn-view-obra">Acessar Obra</button>
+                    <button
+                      onClick={() => navigate(`/obras/${obra.id}`)}
+                      className="btn-view-obra"
+                    >
+                      Acessar Obra
+                    </button>
                   </div>
                 </div>
               ))}
