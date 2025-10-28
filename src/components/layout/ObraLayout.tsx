@@ -73,7 +73,7 @@ const ObraLayout = ({ children }: ObraLayoutProps) => {
 
   return (
     <div className="obra-layout">
-      <Header obraNome={obra.nome} obraId={obra.id} />
+      <Header obraNome={obra.nome} />
       <div className="obra-layout-body">
         <Sidebar />
         <main className="obra-layout-content">{children}</main>

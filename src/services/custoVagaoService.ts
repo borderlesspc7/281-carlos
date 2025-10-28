@@ -173,7 +173,7 @@ export const custoVagaoService = {
     }
   },
 
-  async gerarFluxoCaixa(obraId: string, vagoes: Vagao[], custos: CustoVagao[]) {
+  async gerarFluxoCaixa(vagoes: Vagao[], custos: CustoVagao[]) {
     try {
       // Criar mapa de meses baseado nas datas dos vagões
       const fluxoPorMes = new Map<

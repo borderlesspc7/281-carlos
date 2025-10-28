@@ -135,11 +135,7 @@ const CustoVagoes = () => {
     try {
       setGerandoRelatorio(true);
       setError(null);
-      const fluxo = await custoVagaoService.gerarFluxoCaixa(
-        obraId,
-        vagoes,
-        custos
-      );
+      const fluxo = await custoVagaoService.gerarFluxoCaixa(vagoes, custos);
       setFluxoCaixa(fluxo);
       setShowRelatorio(true);
     } catch (err) {

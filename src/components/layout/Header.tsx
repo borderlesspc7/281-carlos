@@ -5,10 +5,9 @@ import "./Header.css";
 
 interface HeaderProps {
   obraNome: string;
-  obraId: string;
 }
 
-const Header = ({ obraNome, obraId }: HeaderProps) => {
+const Header = ({ obraNome }: HeaderProps) => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
