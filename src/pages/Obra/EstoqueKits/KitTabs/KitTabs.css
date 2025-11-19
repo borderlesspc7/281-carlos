@@ -1,0 +1,24 @@
+.kit-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.kit-tab {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e1e8ed;
+  background: white;
+  color: #6c757d;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.kit-tab.active {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 6px 16px rgba(52, 152, 219, 0.3);
+}
