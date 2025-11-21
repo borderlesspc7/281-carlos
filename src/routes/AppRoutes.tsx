@@ -14,6 +14,7 @@ import ChecklistMensal from "../pages/Obra/ChecklistMensal/ChecklistMensal";
 import Medicao from "../pages/Obra/Medicao/Medicao";
 import Producao from "../pages/Obra/Producao/Producao";
 import ProducaoFaltante from "../pages/Obra/ProducaoFaltante/ProducaoFaltante";
+import Kits from "../pages/Obra/Kits/Kits";
 import EstoqueKits from "../pages/Obra/EstoqueKits/EstoqueKits";
 import MaterialFaltante from "../pages/Obra/MaterialFaltante/MaterialFaltante";
 import MapaRestricoes from "../pages/Obra/MapaRestricoes/MapaRestricoes";
@@ -95,6 +96,18 @@ export default function AppRoutes() {
             </ProtectedRoutes>
           }
         />
+
+        <Route
+          path="/obras/:obraId/kits"
+          element={
+            <ProtectedRoutes>
+              <ObraLayout>
+                <Kits />
+              </ObraLayout>
+            </ProtectedRoutes>
+          }
+        />
+
         <Route
           path="/obras/:obraId/checklist-mensal"
           element={

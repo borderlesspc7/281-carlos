@@ -57,6 +57,12 @@ const Sidebar = () => {
       path: `/obras/${obraId}/contrato`,
     },
     {
+      id: "kits",
+      label: "Kits",
+      icon: <Box size={20} />,
+      path: `/obras/${obraId}/kits`,
+    },
+    {
       id: "checklist-mensal",
       label: "Checklist Mensal",
       icon: <CheckSquare size={20} />,
