@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { estoqueInsumoService } from "../../../services/estoqueInsumoService";
 import { kitService } from "../../../services/kitService";
+import { producaoFaltanteService } from "../../../services/producaoFaltanteService";
 import type { EstoqueInsumo, KitAnalise } from "../../../types/estoqueInsumo";
 import type { Kit } from "../../../types/kit";
 import * as XLSX from "xlsx";
@@ -33,18 +34,19 @@ const MaterialFaltante = () => {
     setError("");
 
     try {
-      const [estoquesData, kitsData] = await Promise.all([
+      const [estoquesData, kitsData, producoesSalvas] = await Promise.all([
         estoqueInsumoService.getEstoquesByObra(obraId),
         kitService.getKitsByObra(obraId),
+        producaoFaltanteService.getProducoesFaltantesByObra(obraId),
       ]);
 
       setEstoques(estoquesData);
       setKits(kitsData);
 
-      // Inicializar produções faltantes como 0
+      // Carregar produções faltantes salvas ou inicializar com 0
       const novasProducoes = new Map<string, number>();
       kitsData.forEach((kit) => {
-        novasProducoes.set(kit.id, 0);
+        novasProducoes.set(kit.id, producoesSalvas.get(kit.id) || 0);
       });
       setProducoesFaltantes(novasProducoes);
     } catch (err) {

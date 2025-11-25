@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { estoqueInsumoService } from "../../../services/estoqueInsumoService";
 import { kitService } from "../../../services/kitService";
+import { producaoFaltanteService } from "../../../services/producaoFaltanteService";
 import type { EstoqueInsumo, KitAnalise } from "../../../types/estoqueInsumo";
 import type { Kit } from "../../../types/kit";
 import * as XLSX from "xlsx";
@@ -53,17 +54,19 @@ const EstoqueKits = () => {
     setError("");
 
     try {
-      const [estoquesData, kitsData] = await Promise.all([
+      const [estoquesData, kitsData, producoesSalvas] = await Promise.all([
         estoqueInsumoService.getEstoquesByObra(obraId),
         kitService.getKitsByObra(obraId),
+        producaoFaltanteService.getProducoesFaltantesByObra(obraId),
       ]);
 
       setEstoques(estoquesData);
       setKits(kitsData);
 
+      // Inicializar com valores salvos ou 0
       const novasProducoes = new Map<string, number>();
       kitsData.forEach((kit) => {
-        novasProducoes.set(kit.id, 0);
+        novasProducoes.set(kit.id, producoesSalvas.get(kit.id) || 0);
       });
       setProducoesFaltantes(novasProducoes);
     } catch (err) {
@@ -537,10 +540,33 @@ const EstoqueKits = () => {
               <div className="estoque-modal-actions">
                 <button
                   type="button"
-                  className="btn-primary-modal"
+                  className="btn-secondary-modal"
                   onClick={() => setShowProducaoModal(false)}
                 >
-                  Confirmar
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  className="btn-primary-modal"
+                  onClick={async () => {
+                    if (!obraId) return;
+                    try {
+                      setError("");
+                      await producaoFaltanteService.saveProducoesFaltantes(
+                        obraId,
+                        producoesFaltantes
+                      );
+                      setShowProducaoModal(false);
+                    } catch (err) {
+                      setError(
+                        err instanceof Error
+                          ? err.message
+                          : "Erro ao salvar produção faltante"
+                      );
+                    }
+                  }}
+                >
+                  Salvar e Confirmar
                 </button>
               </div>
             </div>
