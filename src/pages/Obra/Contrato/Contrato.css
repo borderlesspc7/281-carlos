@@ -1,0 +1,718 @@
+.contrato-container {
+  padding: 32px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.contrato-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.contrato-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.contrato-header-left svg {
+  color: #3498db;
+}
+
+.contrato-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.btn-add-contrato {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-add-contrato:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(52, 152, 219, 0.5);
+}
+
+.contrato-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: linear-gradient(120deg, #fff5f5 0%, #ffecec 100%);
+  border: 1px solid #ffd6d6;
+  color: #c0392b;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.contrato-error-banner button {
+  background: none;
+  border: none;
+  color: #c0392b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.contrato-error-banner button:hover {
+  background: rgba(192, 57, 43, 0.1);
+}
+
+.contrato-loading {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #6c757d;
+}
+
+.contrato-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e1e8ed;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.contrato-empty svg {
+  color: #b0bec5;
+  margin-bottom: 16px;
+}
+
+.contrato-empty h2 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  color: #2c3e50;
+}
+
+.contrato-empty p {
+  margin: 0;
+  color: #6c757d;
+}
+
+.contrato-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.contrato-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #e1e8ed;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.contrato-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.contrato-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.contrato-card-info {
+  flex: 1;
+}
+
+.contrato-tipo-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.contrato-card-info h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 4px 0;
+}
+
+.contrato-numero {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.contrato-card-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.status-icon {
+  flex-shrink: 0;
+}
+
+.status-icon.aprovado {
+  color: #27ae60;
+}
+
+.status-icon.rejeitado {
+  color: #e74c3c;
+}
+
+.status-icon.pendente {
+  color: #f39c12;
+}
+
+.status-text {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-text.aprovado {
+  color: #27ae60;
+}
+
+.status-text.rejeitado {
+  color: #e74c3c;
+}
+
+.status-text.pendente {
+  color: #f39c12;
+}
+
+.contrato-card-body {
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.contrato-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.contrato-info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: 14px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.contrato-card-footer {
+  display: flex;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f3f5;
+}
+
+.btn-view,
+.btn-delete {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-view {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.btn-view:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+}
+
+.btn-delete {
+  background: #fff5f5;
+  color: #e74c3c;
+  border: 1px solid #ffd6d6;
+}
+
+.btn-delete:hover {
+  background: #ffecec;
+  transform: translateY(-2px);
+}
+
+/* Modais */
+.contrato-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 11, 30, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.contrato-modal-content {
+  width: min(900px, 95%);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+  animation: modalSlide 0.3s ease-out;
+  margin: auto;
+  position: relative;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlide {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.contrato-modal-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid #e1e8ed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+  border-radius: 16px 16px 0 0;
+}
+
+.contrato-modal-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.contrato-modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6c757d;
+  transition: all 0.2s ease;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.contrato-modal-close:hover {
+  color: #3498db;
+  background: #f8f9fa;
+}
+
+.contrato-modal-form {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.contrato-form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contrato-form-section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f1f3f5;
+}
+
+.contrato-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.contrato-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contrato-form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.contrato-form-group input,
+.contrato-form-group select {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e1e8ed;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.contrato-form-group input:focus,
+.contrato-form-group select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+/* Formulário de Itens */
+.item-form-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 16px;
+  align-items: end;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.item-form-grid .contrato-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0; /* Permite que o grid funcione corretamente */
+}
+
+.item-form-grid .contrato-form-group input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.item-form-grid .contrato-form-group.add-button {
+  align-items: stretch;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.item-form-grid .contrato-form-group.add-button button {
+  margin-top: 0;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  height: 42px; /* Alinha com a altura dos inputs */
+}
+
+.item-form-grid .contrato-form-group.add-button button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(39, 174, 96, 0.3);
+}
+
+.itens-list {
+  margin-top: 20px;
+  border: 1px solid #e1e8ed;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.itens-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.itens-list thead {
+  background: #f8f9fa;
+}
+
+.itens-list th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2c3e50;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #e1e8ed;
+}
+
+.itens-list td {
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #495057;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.itens-list tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.itens-list tfoot {
+  background: #f8f9fa;
+  font-weight: 700;
+}
+
+.itens-list tfoot td {
+  padding: 16px;
+  border-top: 2px solid #e1e8ed;
+  color: #2c3e50;
+}
+
+.btn-remove-item {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-remove-item:hover {
+  background: rgba(231, 76, 60, 0.1);
+  transform: scale(1.1);
+}
+
+.contrato-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid #f1f3f5;
+}
+
+.btn-secondary-modal,
+.btn-primary-modal {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-secondary-modal {
+  background: #f1f3f5;
+  color: #2c3e50;
+}
+
+.btn-secondary-modal:hover {
+  background: #e9ecef;
+}
+
+.btn-primary-modal {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+}
+
+.btn-primary-modal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(52, 152, 219, 0.3);
+}
+
+/* Modal de Visualização */
+.contrato-view-content {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.contrato-view-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contrato-view-section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f1f3f5;
+}
+
+.contrato-view-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.contrato-view-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contrato-view-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.view-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.view-value {
+  font-size: 15px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.view-value.status {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.view-value.status.aprovado {
+  color: #27ae60;
+}
+
+.view-value.status.rejeitado {
+  color: #e74c3c;
+}
+
+.view-value.status.pendente {
+  color: #f39c12;
+}
+
+@media (max-width: 768px) {
+  .contrato-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .contrato-list {
+    grid-template-columns: 1fr;
+  }
+
+  .contrato-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .item-form-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .item-form-grid .contrato-form-group.add-button {
+    align-items: stretch;
+    margin-top: 8px;
+  }
+
+  .contrato-view-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contrato-card-footer {
+    flex-direction: column;
+  }
+
+  .itens-list {
+    overflow-x: auto;
+  }
+
+  .itens-list table {
+    min-width: 600px;
+  }
+}
+
+@media (max-width: 1200px) and (min-width: 769px) {
+  .item-form-grid {
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 12px;
+  }
+
+  .item-form-grid .contrato-form-group:nth-child(4),
+  .item-form-grid .contrato-form-group:nth-child(5) {
+    grid-column: span 1;
+  }
+
+  .item-form-grid .contrato-form-group.add-button {
+    grid-column: span 3;
+  }
+}
