@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
 import {
@@ -11,9 +11,13 @@ import {
   CheckCircle,
   XCircle,
   Clock,
+  MailCheck,
+  Info,
 } from "lucide-react";
 import { contratoService } from "../../../services/contratoService";
+import { itemVagaoService } from "../../../services/itemVagaoService";
 import type { Contrato, ItemContrato } from "../../../types/contratos";
+import type { ItemVagao } from "../../../types/itemVagao";
 import "./Contrato.css";
 
 const Contrato = () => {
@@ -43,6 +47,37 @@ const Contrato = () => {
     valorUnitario: 0,
   });
 
+  const [itensDisponiveis, setItensDisponiveis] = useState<ItemVagao[]>([]);
+  const [selectedBaseItemId, setSelectedBaseItemId] = useState("");
+  const [savingContrato, setSavingContrato] = useState(false);
+  const [itemFormError, setItemFormError] = useState("");
+  const [fornecedorInsight, setFornecedorInsight] = useState<{
+    tipo: "contrato" | "aditivo";
+    contratoNumero?: string;
+  } | null>(null);
+
+  const fornecedoresDisponiveis = useMemo(() => {
+    const fornecedores = new Set<string>();
+    itensDisponiveis.forEach((item) => {
+      if (item.empresa) {
+        fornecedores.add(item.empresa);
+      }
+    });
+    return Array.from(fornecedores).sort();
+  }, [itensDisponiveis]);
+
+  const itensVinculados = useMemo(() => {
+    return itensDisponiveis.map((item) => ({
+      id: item.id,
+      label: `Vagão ${item.vagaoNumero} • ${item.servico} (${item.empresa})`,
+    }));
+  }, [itensDisponiveis]);
+
+  const selectedBaseItem = useMemo(
+    () => itensDisponiveis.find((item) => item.id === selectedBaseItemId),
+    [itensDisponiveis, selectedBaseItemId]
+  );
+
   const loadContratos = useCallback(async () => {
     if (!obraId) return;
 
@@ -61,11 +96,22 @@ const Contrato = () => {
     }
   }, [obraId]);
 
+  const loadItens = useCallback(async () => {
+    if (!obraId) return;
+    try {
+      const data = await itemVagaoService.getItensByObra(obraId);
+      setItensDisponiveis(data);
+    } catch (err) {
+      console.error("Erro ao carregar itens da Tela 4:", err);
+    }
+  }, [obraId]);
+
   useEffect(() => {
     if (obraId) {
       loadContratos();
+      loadItens();
     }
-  }, [obraId, loadContratos]);
+  }, [obraId, loadContratos, loadItens]);
 
   useEffect(() => {
     if (showModal || showViewModal) {
@@ -79,6 +125,44 @@ const Contrato = () => {
     };
   }, [showModal, showViewModal]);
 
+  const handleFornecedorChange = (value: string) => {
+    setContratoForm((prev) => ({ ...prev, fornecedor: value }));
+    if (!value) {
+      setFornecedorInsight(null);
+      return;
+    }
+
+    const contratoExistente = contratos.find(
+      (contrato) => contrato.fornecedor.toLowerCase() === value.toLowerCase()
+    );
+
+    if (contratoExistente) {
+      setFornecedorInsight({
+        tipo: "aditivo",
+        contratoNumero: contratoExistente.numeroContrato,
+      });
+    } else {
+      setFornecedorInsight({ tipo: "contrato" });
+    }
+  };
+
+  const handleSelectBaseItem = (itemId: string) => {
+    setSelectedBaseItemId(itemId);
+    if (!itemId) return;
+
+    const baseItem = itensDisponiveis.find((item) => item.id === itemId);
+    if (!baseItem) return;
+
+    setItemForm((prev) => ({
+      ...prev,
+      descricao: baseItem.servico,
+      unidade: prev.unidade || "un",
+      quantidade: baseItem.quantidade,
+    }));
+
+    handleFornecedorChange(baseItem.empresa);
+  };
+
   const handleOpenModal = () => {
     setContratoForm({
       fornecedor: "",
@@ -87,27 +171,56 @@ const Contrato = () => {
       aprovadorEmail: "",
     });
     setItens([]);
+    setSelectedBaseItemId("");
+    setFornecedorInsight(null);
+    setItemFormError("");
     setShowModal(true);
   };
 
   const handleAddItem = () => {
-    if (
-      !itemForm.descricao ||
-      !itemForm.unidade ||
-      itemForm.quantidade <= 0 ||
-      itemForm.valorUnitario <= 0
-    ) {
-      setError("Preencha todos os campos do item corretamente");
+    setItemFormError("");
+
+    const descricao =
+      itemForm.descricao.trim() || selectedBaseItem?.servico?.trim() || "";
+
+    const unidade = itemForm.unidade.trim() || "un";
+
+    const quantidade =
+      itemForm.quantidade > 0
+        ? itemForm.quantidade
+        : selectedBaseItem && selectedBaseItem.quantidade > 0
+        ? selectedBaseItem.quantidade
+        : 0;
+
+    if (!descricao) {
+      setItemFormError(
+        "Selecione um serviço cadastrado ou informe a descrição manualmente."
+      );
+      return;
+    }
+
+    if (!unidade) {
+      setItemFormError("Informe a unidade do item.");
+      return;
+    }
+
+    if (quantidade <= 0) {
+      setItemFormError("Defina uma quantidade maior que zero.");
+      return;
+    }
+
+    if (itemForm.valorUnitario <= 0) {
+      setItemFormError("Informe o valor unitário do item.");
       return;
     }
 
     const novoItem: ItemContrato = {
       id: contratoService.createItemId(),
-      descricao: itemForm.descricao,
-      unidade: itemForm.unidade,
-      quantidade: itemForm.quantidade,
+      descricao,
+      unidade,
+      quantidade,
       valorUnitario: itemForm.valorUnitario,
-      valorTotal: itemForm.quantidade * itemForm.valorUnitario,
+      valorTotal: quantidade * itemForm.valorUnitario,
     };
 
     setItens([...itens, novoItem]);
@@ -117,7 +230,7 @@ const Contrato = () => {
       quantidade: 0,
       valorUnitario: 0,
     });
-    setError("");
+    setItemFormError("");
   };
 
   const handleRemoveItem = (itemId: string) => {
@@ -127,6 +240,7 @@ const Contrato = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!obraId) return;
+    if (savingContrato) return;
 
     if (itens.length === 0) {
       setError("Adicione pelo menos um item ao contrato");
@@ -134,6 +248,7 @@ const Contrato = () => {
     }
 
     setError("");
+    setSavingContrato(true);
 
     try {
       await contratoService.createContrato(obraId, {
@@ -153,6 +268,8 @@ const Contrato = () => {
       setItens([]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao criar contrato");
+    } finally {
+      setSavingContrato(false);
     }
   };
 
@@ -195,6 +312,34 @@ const Contrato = () => {
     }
   };
 
+  const getApprovalSteps = (status: string) => {
+    return [
+      { id: "criado", label: "Criação", state: "completed" },
+      { id: "email", label: "E-mail enviado", state: "completed" },
+      {
+        id: "aguardando",
+        label: "Aguardando aprovação",
+        state: status === "pendente" ? "current" : "completed",
+      },
+      {
+        id: "conclusao",
+        label:
+          status === "aprovado"
+            ? "Aprovado"
+            : status === "rejeitado"
+            ? "Rejeitado"
+            : "Conclusão",
+        state: status === "pendente" ? "upcoming" : "completed",
+        highlight:
+          status === "pendente"
+            ? undefined
+            : status === "aprovado"
+            ? "aprovado"
+            : "rejeitado",
+      },
+    ];
+  };
+
   const valorTotalItens = itens.reduce((sum, item) => sum + item.valorTotal, 0);
 
   if (loading) {
@@ -216,6 +361,23 @@ const Contrato = () => {
           <Plus size={20} />
           Novo Contrato
         </button>
+      </div>
+
+      <div className="contrato-highlights">
+        <div className="highlight-card">
+          <strong>Dependência – Tela 4 (Itens)</strong>
+          <p>
+            Os contratos aproveitam fornecedores e serviços já aprovados na tela
+            de Itens. Vincule o serviço antes de definir valores contratuais.
+          </p>
+        </div>
+        <div className="highlight-card">
+          <strong>Workflow de Aprovação</strong>
+          <p>
+            Após a criação, o aprovador recebe um link via Power Automate para
+            aprovar ou rejeitar o contrato/aditivo.
+          </p>
+        </div>
       </div>
 
       {error && (
@@ -274,6 +436,20 @@ const Contrato = () => {
                   <span className="info-label">Itens:</span>
                   <span className="info-value">{contrato.itens.length}</span>
                 </div>
+
+                <div className="contrato-approval-timeline">
+                  {getApprovalSteps(contrato.status).map((step) => (
+                    <div
+                      key={`${contrato.id}-${step.id}`}
+                      className={`timeline-step ${step.state} ${
+                        step.highlight ? `timeline-${step.highlight}` : ""
+                      }`}
+                    >
+                      <div className="timeline-dot" />
+                      <span>{step.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="contrato-card-footer">
@@ -328,15 +504,38 @@ const Contrato = () => {
                       <label>Fornecedor *</label>
                       <input
                         type="text"
+                        list="fornecedoresOptions"
                         value={contratoForm.fornecedor}
-                        onChange={(e) =>
-                          setContratoForm({
-                            ...contratoForm,
-                            fornecedor: e.target.value,
-                          })
-                        }
+                        onChange={(e) => handleFornecedorChange(e.target.value)}
+                        placeholder="Ex: Fornecedor de Cimento"
                         required
                       />
+                      {fornecedoresDisponiveis.length > 0 && (
+                        <datalist id="fornecedoresOptions">
+                          {fornecedoresDisponiveis.map((fornecedor) => (
+                            <option key={fornecedor} value={fornecedor} />
+                          ))}
+                        </datalist>
+                      )}
+                      {fornecedorInsight && (
+                        <div
+                          className={`fornecedor-alert ${fornecedorInsight.tipo}`}
+                        >
+                          <Info size={16} />
+                          {fornecedorInsight.tipo === "aditivo" ? (
+                            <span>
+                              Fornecedor já possui contrato Nº{" "}
+                              {fornecedorInsight.contratoNumero}. Este registro
+                              será tratado como aditivo automaticamente.
+                            </span>
+                          ) : (
+                            <span>
+                              Nenhum contrato anterior encontrado. Este será um
+                              novo contrato base.
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
 
                     <div className="contrato-form-group">
@@ -350,8 +549,20 @@ const Contrato = () => {
                             numeroContrato: e.target.value,
                           })
                         }
+                        placeholder="Ex: 1234567890"
                         required
                       />
+                    </div>
+
+                    <div className="contrato-info-banner">
+                      <MailCheck size={20} />
+                      <div>
+                        <strong>Power Automate</strong>
+                        <p>
+                          Ao salvar, um e-mail automático com link seguro de
+                          aprovação será enviado para o aprovador informado.
+                        </p>
+                      </div>
                     </div>
                   </div>
 
@@ -367,6 +578,7 @@ const Contrato = () => {
                             aprovadorNome: e.target.value,
                           })
                         }
+                        placeholder="Ex: João da Silva"
                         required
                       />
                     </div>
@@ -382,6 +594,7 @@ const Contrato = () => {
                             aprovadorEmail: e.target.value,
                           })
                         }
+                        placeholder="Ex: joao@gmail.com"
                         required
                       />
                     </div>
@@ -390,6 +603,40 @@ const Contrato = () => {
 
                 <div className="contrato-form-section">
                   <h3>Adicionar Itens</h3>
+                  <div className="contrato-form-group full-width">
+                    <label>Serviço cadastrado (Tela 4)</label>
+                    <select
+                      value={selectedBaseItemId}
+                      onChange={(e) => handleSelectBaseItem(e.target.value)}
+                    >
+                      <option value="">
+                        Selecione um serviço existente para vincular
+                      </option>
+                      {itensVinculados.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.label}
+                        </option>
+                      ))}
+                    </select>
+                    {selectedBaseItem && (
+                      <div className="contrato-base-item">
+                        <span>
+                          Fornecedor:{" "}
+                          <strong>{selectedBaseItem.empresa}</strong>
+                        </span>
+                        <span>
+                          Vagão: <strong>{selectedBaseItem.vagaoNumero}</strong>
+                        </span>
+                        <span>
+                          Qtde orçada:{" "}
+                          <strong>
+                            {selectedBaseItem.quantidade}/
+                            {selectedBaseItem.quantidadeMaxima}
+                          </strong>
+                        </span>
+                      </div>
+                    )}
+                  </div>
                   <div className="item-form-grid">
                     <div className="contrato-form-group">
                       <label>Descrição</label>
@@ -403,6 +650,7 @@ const Contrato = () => {
                           })
                         }
                         placeholder="Ex: Cimento Portland"
+                        required
                       />
                     </div>
 
@@ -415,6 +663,7 @@ const Contrato = () => {
                           setItemForm({ ...itemForm, unidade: e.target.value })
                         }
                         placeholder="m³, kg, un..."
+                        required
                       />
                     </div>
 
@@ -431,6 +680,8 @@ const Contrato = () => {
                             quantidade: parseFloat(e.target.value) || 0,
                           })
                         }
+                        placeholder="Ex: 100"
+                        required
                       />
                     </div>
 
@@ -447,16 +698,29 @@ const Contrato = () => {
                             valorUnitario: parseFloat(e.target.value) || 0,
                           })
                         }
+                        placeholder="Ex: 100.00"
+                        required
                       />
                     </div>
 
                     <div className="contrato-form-group add-button">
-                      <button type="button" onClick={handleAddItem}>
+                      <button
+                        type="button"
+                        onClick={handleAddItem}
+                        disabled={savingContrato}
+                      >
                         <Plus size={16} />
-                        Adicionar
+                        {savingContrato ? "Aguarde..." : "Adicionar"}
                       </button>
                     </div>
                   </div>
+
+                  {itemFormError && (
+                    <div className="contrato-item-error">
+                      <AlertCircle size={16} />
+                      <span>{itemFormError}</span>
+                    </div>
+                  )}
 
                   {itens.length > 0 && (
                     <div className="itens-list">
@@ -530,8 +794,12 @@ const Contrato = () => {
                   >
                     Cancelar
                   </button>
-                  <button type="submit" className="btn-primary-modal">
-                    Criar Contrato
+                  <button
+                    type="submit"
+                    className="btn-primary-modal"
+                    disabled={savingContrato}
+                  >
+                    {savingContrato ? "Criando..." : "Criar Contrato"}
                   </button>
                 </div>
               </form>

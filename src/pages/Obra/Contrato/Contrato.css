@@ -50,6 +50,35 @@
   box-shadow: 0 8px 20px rgba(52, 152, 219, 0.5);
 }
 
+.contrato-highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.highlight-card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid #e1e8ed;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.highlight-card strong {
+  display: block;
+  font-size: 14px;
+  color: #2c3e50;
+  margin-bottom: 6px;
+}
+
+.highlight-card p {
+  margin: 0;
+  font-size: 13px;
+  color: #5f6a79;
+  line-height: 1.4;
+}
+
 .contrato-error-banner {
   display: flex;
   align-items: center;
@@ -244,6 +273,92 @@
   font-weight: 600;
 }
 
+.contrato-approval-timeline {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed #e1e8ed;
+}
+
+.timeline-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #a0acb9;
+  position: relative;
+}
+
+.timeline-step::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(-50% + 12px);
+  width: calc(100% + 12px);
+  height: 2px;
+  background: #e1e8ed;
+  z-index: 0;
+}
+
+.timeline-step:last-child::after {
+  display: none;
+}
+
+.timeline-step:first-child::after {
+  display: none;
+}
+
+.timeline-step .timeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #cfd8dc;
+  flex-shrink: 0;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px #cfd8dc;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-step.completed {
+  color: #27ae60;
+}
+
+.timeline-step.completed .timeline-dot {
+  background: #27ae60;
+  box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.25);
+}
+
+.timeline-step.current {
+  color: #3498db;
+}
+
+.timeline-step.current .timeline-dot {
+  background: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.25);
+}
+
+.timeline-step.upcoming {
+  color: #b0bec5;
+}
+
+.timeline-step.upcoming .timeline-dot {
+  background: #b0bec5;
+  box-shadow: 0 0 0 2px rgba(176, 190, 197, 0.25);
+}
+
+.timeline-step.timeline-aprovado {
+  color: #27ae60;
+}
+
+.timeline-step.timeline-rejeitado {
+  color: #e74c3c;
+}
+
 .contrato-card-footer {
   display: flex;
   gap: 12px;
@@ -430,6 +545,89 @@
   outline: none;
   border-color: #3498db;
   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+.contrato-form-group.full-width {
+  width: 100%;
+  grid-column: 1 / -1;
+}
+
+.contrato-info-banner {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  background: linear-gradient(120deg, #ebf5fb 0%, #e8f8f5 100%);
+  border: 1px solid #d6eaf8;
+  border-radius: 12px;
+  padding: 16px;
+  color: #1f618d;
+}
+
+.contrato-info-banner svg {
+  flex-shrink: 0;
+}
+
+.contrato-info-banner p {
+  margin: 4px 0 0 0;
+  color: #1f618d;
+  font-size: 13px;
+}
+
+.fornecedor-alert {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 13px;
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+}
+
+.fornecedor-alert svg {
+  margin-top: 2px;
+}
+
+.fornecedor-alert.contrato {
+  background: #ecf9f1;
+  border-color: #c8f1d7;
+  color: #1e8449;
+}
+
+.fornecedor-alert.aditivo {
+  background: #fef5e7;
+  border-color: #fdebd0;
+  color: #c17c0d;
+}
+
+.contrato-base-item {
+  margin-top: 10px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  background: #f4f6f7;
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: #2c3e50;
+}
+
+.contrato-base-item span {
+  display: flex;
+  gap: 4px;
+}
+
+.contrato-item-error {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ffd6d6;
+  background: #fff5f5;
+  color: #c0392b;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* Formulário de Itens */
