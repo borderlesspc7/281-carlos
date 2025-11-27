@@ -16,19 +16,22 @@ import {
 } from "lucide-react";
 import { contratoService } from "../../../services/contratoService";
 import { itemVagaoService } from "../../../services/itemVagaoService";
-import type { Contrato, ItemContrato } from "../../../types/contratos";
+import type {
+  Contrato as ContratoType,
+  ItemContrato,
+} from "../../../types/contratos";
 import type { ItemVagao } from "../../../types/itemVagao";
 import "./Contrato.css";
 
 const Contrato = () => {
   const { obraId } = useParams<{ obraId: string }>();
-  const [contratos, setContratos] = useState<Contrato[]>([]);
+  const [contratos, setContratos] = useState<ContratoType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const [showModal, setShowModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
-  const [selectedContrato, setSelectedContrato] = useState<Contrato | null>(
+  const [selectedContrato, setSelectedContrato] = useState<ContratoType | null>(
     null
   );
 
@@ -273,7 +276,7 @@ const Contrato = () => {
     }
   };
 
-  const handleViewContrato = (contrato: Contrato) => {
+  const handleViewContrato = (contrato: ContratoType) => {
     setSelectedContrato(contrato);
     setShowViewModal(true);
   };

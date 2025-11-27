@@ -9,7 +9,7 @@ import Vagoes from "../pages/Obra/Vagoes/Vagoes";
 import CustoVagoes from "../pages/Obra/CustoVagoes/CustoVagoes";
 import EstoqueInsumos from "../pages/Obra/EstoqueInsumos/EstoqueInsumos";
 import Itens from "../pages/Obra/Itens/Itens";
-import Contrato from "../pages/Obra/Contrato/Contrato";
+import ContratoPage from "../pages/Obra/Contrato/Contrato";
 import ChecklistMensal from "../pages/Obra/ChecklistMensal/ChecklistMensal";
 import Medicao from "../pages/Obra/Medicao/Medicao";
 import Producao from "../pages/Obra/Producao/Producao";
@@ -91,7 +91,7 @@ export default function AppRoutes() {
           element={
             <ProtectedRoutes>
               <ObraLayout>
-                <Contrato />
+                <ContratoPage />
               </ObraLayout>
             </ProtectedRoutes>
           }
