@@ -1,0 +1,318 @@
+.medicao-list-container {
+  padding: 32px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.medicao-list-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 16px;
+}
+
+.medicao-list-loading p {
+  color: #6c757d;
+  font-size: 16px;
+}
+
+.spinner-rotate {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.medicao-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.medicao-list-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.medicao-list-header-left svg {
+  color: #3498db;
+}
+
+.medicao-list-header-left h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 4px 0;
+}
+
+.medicao-list-header-left p {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0;
+}
+
+.btn-nova-medicao {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-nova-medicao:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(52, 152, 219, 0.5);
+}
+
+.medicao-list-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  color: #c33;
+  margin-bottom: 24px;
+}
+
+.medicao-list-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.medicao-list-empty svg {
+  color: #bdc3c7;
+  margin-bottom: 24px;
+}
+
+.medicao-list-empty h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+}
+
+.medicao-list-empty p {
+  font-size: 16px;
+  color: #6c757d;
+  margin: 0 0 32px 0;
+}
+
+.medicao-list-table-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.medicao-list-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.medicao-list-table thead {
+  background: #f8f9fa;
+}
+
+.medicao-list-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  color: #2c3e50;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.medicao-list-table td {
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.medicao-list-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.medicao-list-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.medicao-list-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-action-view {
+  background: #e8f5e9;
+  color: #27ae60;
+}
+
+.btn-action-view:hover {
+  background: #c8e6c9;
+}
+
+.btn-action-delete {
+  background: #ffebee;
+  color: #e74c3c;
+}
+
+.btn-action-delete:hover {
+  background: #ffcdd2;
+}
+
+/* Modal */
+.medicao-list-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.medicao-list-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.medicao-list-modal h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 16px 0;
+}
+
+.medicao-list-modal p {
+  color: #6c757d;
+  font-size: 14px;
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+.medicao-list-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.btn-modal {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-modal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-modal-cancel {
+  background: #f5f5f5;
+  color: #6c757d;
+}
+
+.btn-modal-cancel:hover:not(:disabled) {
+  background: #e0e0e0;
+}
+
+.btn-modal-confirm {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-modal-confirm:hover:not(:disabled) {
+  background: #c0392b;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .medicao-list-container {
+    padding: 16px;
+  }
+
+  .medicao-list-table-container {
+    overflow-x: auto;
+  }
+
+  .medicao-list-table {
+    min-width: 800px;
+  }
+}
+

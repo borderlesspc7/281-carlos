@@ -1,0 +1,632 @@
+.medicao-container {
+  padding: 32px;
+  animation: fadeIn 0.5s ease-out;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.medicao-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 16px;
+}
+
+.medicao-loading p {
+  color: #6c757d;
+  font-size: 16px;
+}
+
+.spinner-rotate {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.medicao-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.medicao-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.medicao-header-left svg {
+  color: #3498db;
+}
+
+.medicao-header-left h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 4px 0;
+}
+
+.medicao-header-left p {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0;
+}
+
+.btn-cancel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  background: white;
+  color: #6c757d;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background: #f5f5f5;
+  border-color: #d0d0d0;
+}
+
+/* Stepper */
+.medicao-stepper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  position: relative;
+  padding: 0 20px;
+}
+
+.stepper-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+.stepper-step-connector {
+  position: absolute;
+  top: 12px;
+  left: 60%;
+  right: -40%;
+  height: 2px;
+  background: #e0e0e0;
+  z-index: 0;
+}
+
+.stepper-step.completed .stepper-step-connector {
+  background: #27ae60;
+}
+
+.stepper-step-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  color: #6c757d;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.stepper-step.active .stepper-step-icon {
+  background: #3498db;
+  color: white;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+}
+
+.stepper-step.completed .stepper-step-icon {
+  background: #27ae60;
+  color: white;
+}
+
+.stepper-step-label {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6c757d;
+  text-align: center;
+}
+
+.stepper-step.active .stepper-step-label {
+  color: #3498db;
+  font-weight: 600;
+}
+
+.stepper-step.completed .stepper-step-label {
+  color: #27ae60;
+}
+
+/* Conteúdo */
+.medicao-content {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+  min-height: 400px;
+}
+
+.medicao-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  color: #c33;
+  margin-bottom: 24px;
+}
+
+.medicao-step-content h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+}
+
+.medicao-subtitle {
+  color: #6c757d;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* Formulário */
+.medicao-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.medicao-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.medicao-form-group-full {
+  grid-column: 1 / -1;
+}
+
+.medicao-form-group label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.medicao-form-group input,
+.medicao-form-group select {
+  padding: 12px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.medicao-form-group input:focus,
+.medicao-form-group select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.medicao-form-group select:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.medicao-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.medicao-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.medicao-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Lista de Itens */
+.medicao-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.medicao-item-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.medicao-item-checkbox:hover {
+  border-color: #3498db;
+  background: #f8fbff;
+}
+
+.medicao-item-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.medicao-item-checkbox input[type="checkbox"]:checked + .medicao-item-info {
+  color: #3498db;
+}
+
+.medicao-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.medicao-item-servico {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 16px;
+}
+
+.medicao-item-empresa {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.medicao-item-quantidade {
+  color: #95a5a6;
+  font-size: 12px;
+}
+
+/* Mapa de Unidades */
+.medicao-unidades-map {
+  margin-top: 24px;
+}
+
+.medicao-unidades-floor {
+  margin-bottom: 32px;
+}
+
+.medicao-unidades-floor-label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 16px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.medicao-unidades-floor-apts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.medicao-unidade-btn {
+  width: 80px;
+  height: 60px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.medicao-unidade-btn:hover {
+  border-color: #3498db;
+  background: #f8fbff;
+  transform: translateY(-2px);
+}
+
+.medicao-unidade-btn.selected {
+  background: #27ae60;
+  border-color: #27ae60;
+  color: white;
+}
+
+/* Resumo */
+.medicao-summary {
+  margin-top: 24px;
+}
+
+.medicao-summary-section {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.medicao-summary-section:last-child {
+  border-bottom: none;
+}
+
+.medicao-summary-section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 16px 0;
+}
+
+.medicao-summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.medicao-summary-label {
+  font-weight: 600;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.medicao-summary-value {
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.medicao-summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0 0;
+}
+
+.medicao-summary-list li {
+  padding: 8px 0;
+  color: #2c3e50;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.medicao-summary-list li:last-child {
+  border-bottom: none;
+}
+
+.medicao-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #6c757d;
+  text-align: center;
+}
+
+.medicao-empty-state svg {
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.medicao-empty-state p {
+  font-size: 16px;
+}
+
+/* Navegação */
+.medicao-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+.medicao-navigation-steps {
+  font-weight: 600;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.btn-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-nav:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-nav-back {
+  background: #f5f5f5;
+  color: #6c757d;
+}
+
+.btn-nav-back:hover:not(:disabled) {
+  background: #e0e0e0;
+}
+
+.btn-nav-next {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.btn-nav-next:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+}
+
+.btn-nav-save {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+}
+
+.btn-nav-save:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(39, 174, 96, 0.4);
+}
+
+/* Modal */
+.medicao-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.medicao-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.medicao-modal h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 16px 0;
+}
+
+.medicao-modal p {
+  color: #6c757d;
+  font-size: 14px;
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+.medicao-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.btn-modal {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-modal-cancel {
+  background: #f5f5f5;
+  color: #6c757d;
+}
+
+.btn-modal-cancel:hover {
+  background: #e0e0e0;
+}
+
+.btn-modal-confirm {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-modal-confirm:hover {
+  background: #c0392b;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .medicao-container {
+    padding: 16px;
+  }
+
+  .medicao-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .medicao-stepper {
+    padding: 0;
+  }
+
+  .stepper-step-label {
+    font-size: 12px;
+  }
+
+  .stepper-step-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .medicao-navigation {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .btn-nav {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

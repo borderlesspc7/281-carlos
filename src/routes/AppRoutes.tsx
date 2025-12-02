@@ -12,6 +12,8 @@ import Itens from "../pages/Obra/Itens/Itens";
 import ContratoPage from "../pages/Obra/Contrato/Contrato";
 import ChecklistMensal from "../pages/Obra/ChecklistMensal/ChecklistMensal";
 import Medicao from "../pages/Obra/Medicao/Medicao";
+import MedicaoForm from "../pages/Obra/Medicao/MedicaoForm";
+import MedicaoDetails from "../pages/Obra/Medicao/MedicaoDetails";
 import Producao from "../pages/Obra/Producao/Producao";
 import ProducaoFaltante from "../pages/Obra/ProducaoFaltante/ProducaoFaltante";
 import Kits from "../pages/Obra/Kits/Kits";
@@ -124,6 +126,26 @@ export default function AppRoutes() {
             <ProtectedRoutes>
               <ObraLayout>
                 <Medicao />
+              </ObraLayout>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/obras/:obraId/medicao/nova"
+          element={
+            <ProtectedRoutes>
+              <ObraLayout>
+                <MedicaoForm />
+              </ObraLayout>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/obras/:obraId/medicao/:medicaoId"
+          element={
+            <ProtectedRoutes>
+              <ObraLayout>
+                <MedicaoDetails />
               </ObraLayout>
             </ProtectedRoutes>
           }
