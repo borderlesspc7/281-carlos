@@ -89,7 +89,7 @@ const Medicao = () => {
   };
 
   if (loading) {
-    return (
+  return (
       <div className="medicao-list-loading">
         <Loader2 size={48} className="spinner-rotate" />
         <p>Carregando medições...</p>

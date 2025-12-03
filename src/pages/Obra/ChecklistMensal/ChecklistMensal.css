@@ -1,9 +1,9 @@
-.medicao-list-container {
+.checklist-list-container {
   padding: 32px;
   animation: fadeIn 0.5s ease-out;
 }
 
-.medicao-list-loading {
+.checklist-list-loading {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,7 +12,7 @@
   gap: 16px;
 }
 
-.medicao-list-loading p {
+.checklist-list-loading p {
   color: #6c757d;
   font-size: 16px;
 }
@@ -30,7 +30,7 @@
   }
 }
 
-.medicao-list-header {
+.checklist-list-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -39,51 +39,51 @@
   gap: 16px;
 }
 
-.medicao-list-header-left {
+.checklist-list-header-left {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.medicao-list-header-left svg {
-  color: #3498db;
+.checklist-list-header-left svg {
+  color: #9b59b6;
 }
 
-.medicao-list-header-left h1 {
+.checklist-list-header-left h1 {
   font-size: 32px;
   font-weight: 700;
   color: #2c3e50;
   margin: 0 0 4px 0;
 }
 
-.medicao-list-header-left p {
+.checklist-list-header-left p {
   font-size: 14px;
   color: #6c757d;
   margin: 0;
 }
 
-.btn-nova-medicao {
+.btn-novo-checklist {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
   border-radius: 10px;
   border: none;
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
   color: white;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+  box-shadow: 0 6px 15px rgba(155, 89, 182, 0.4);
   transition: all 0.3s ease;
   font-size: 14px;
 }
 
-.btn-nova-medicao:hover {
+.btn-novo-checklist:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(52, 152, 219, 0.5);
+  box-shadow: 0 8px 20px rgba(155, 89, 182, 0.5);
 }
 
-.medicao-list-error {
+.checklist-list-error {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -95,7 +95,7 @@
   margin-bottom: 24px;
 }
 
-.medicao-list-empty {
+.checklist-list-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,41 +107,41 @@
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
-.medicao-list-empty svg {
+.checklist-list-empty svg {
   color: #bdc3c7;
   margin-bottom: 24px;
 }
 
-.medicao-list-empty h2 {
+.checklist-list-empty h2 {
   font-size: 24px;
   font-weight: 700;
   color: #2c3e50;
   margin: 0 0 8px 0;
 }
 
-.medicao-list-empty p {
+.checklist-list-empty p {
   font-size: 16px;
   color: #6c757d;
   margin: 0 0 32px 0;
 }
 
-.medicao-list-table-container {
+.checklist-list-table-container {
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
 
-.medicao-list-table {
+.checklist-list-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.medicao-list-table thead {
+.checklist-list-table thead {
   background: #f8f9fa;
 }
 
-.medicao-list-table th {
+.checklist-list-table th {
   padding: 16px;
   text-align: left;
   font-weight: 600;
@@ -150,22 +150,22 @@
   border-bottom: 2px solid #e0e0e0;
 }
 
-.medicao-list-table td {
+.checklist-list-table td {
   padding: 16px;
   border-bottom: 1px solid #f0f0f0;
   font-size: 14px;
   color: #2c3e50;
 }
 
-.medicao-list-table tbody tr:hover {
+.checklist-list-table tbody tr:hover {
   background: #f8f9fa;
 }
 
-.medicao-list-table tbody tr:last-child td {
+.checklist-list-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.medicao-list-actions {
+.checklist-list-actions {
   display: flex;
   gap: 8px;
 }
@@ -200,8 +200,32 @@
   background: #ffcdd2;
 }
 
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-pendente {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-aprovado {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-aprovado-restricao {
+  background: #ffeaa7;
+  color: #d63031;
+}
+
 /* Modal */
-.medicao-list-modal-overlay {
+.checklist-list-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -215,7 +239,7 @@
   animation: fadeIn 0.2s ease-out;
 }
 
-.medicao-list-modal {
+.checklist-list-modal {
   background: white;
   border-radius: 12px;
   padding: 32px;
@@ -245,21 +269,21 @@
   }
 }
 
-.medicao-list-modal h3 {
+.checklist-list-modal h3 {
   font-size: 20px;
   font-weight: 700;
   color: #2c3e50;
   margin: 0 0 16px 0;
 }
 
-.medicao-list-modal p {
+.checklist-list-modal p {
   color: #6c757d;
   font-size: 14px;
   margin: 0 0 24px 0;
   line-height: 1.6;
 }
 
-.medicao-list-modal-actions {
+.checklist-list-modal-actions {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
@@ -303,17 +327,16 @@
 
 /* Responsivo */
 @media (max-width: 768px) {
-  .medicao-list-container {
+  .checklist-list-container {
     padding: 16px;
   }
 
-  .medicao-list-table-container {
+  .checklist-list-table-container {
     overflow-x: auto;
   }
 
-  .medicao-list-table {
+  .checklist-list-table {
     min-width: 800px;
   }
 }
-
 

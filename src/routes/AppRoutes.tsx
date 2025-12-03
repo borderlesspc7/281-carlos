@@ -11,6 +11,8 @@ import EstoqueInsumos from "../pages/Obra/EstoqueInsumos/EstoqueInsumos";
 import Itens from "../pages/Obra/Itens/Itens";
 import ContratoPage from "../pages/Obra/Contrato/Contrato";
 import ChecklistMensal from "../pages/Obra/ChecklistMensal/ChecklistMensal";
+import ChecklistMensalForm from "../pages/Obra/ChecklistMensal/ChecklistMensalForm";
+import ChecklistMensalDetails from "../pages/Obra/ChecklistMensal/ChecklistMensalDetails";
 import Medicao from "../pages/Obra/Medicao/Medicao";
 import MedicaoForm from "../pages/Obra/Medicao/MedicaoForm";
 import MedicaoDetails from "../pages/Obra/Medicao/MedicaoDetails";
@@ -116,6 +118,26 @@ export default function AppRoutes() {
             <ProtectedRoutes>
               <ObraLayout>
                 <ChecklistMensal />
+              </ObraLayout>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/obras/:obraId/checklist-mensal/novo"
+          element={
+            <ProtectedRoutes>
+              <ObraLayout>
+                <ChecklistMensalForm />
+              </ObraLayout>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/obras/:obraId/checklist-mensal/:checklistId"
+          element={
+            <ProtectedRoutes>
+              <ObraLayout>
+                <ChecklistMensalDetails />
               </ObraLayout>
             </ProtectedRoutes>
           }

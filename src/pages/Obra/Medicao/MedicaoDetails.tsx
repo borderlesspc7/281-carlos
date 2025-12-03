@@ -243,3 +243,4 @@ const MedicaoDetails = () => {
 
 export default MedicaoDetails;
 
+
