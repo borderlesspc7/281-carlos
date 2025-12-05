@@ -364,3 +364,6 @@ const ChecklistMensalDetails = () => {
 
 export default ChecklistMensalDetails;
 
+
+
+

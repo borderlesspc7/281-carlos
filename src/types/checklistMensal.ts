@@ -24,3 +24,6 @@ export interface UpdateChecklistStatusData {
   status: "aprovado" | "aprovado_com_restricao";
 }
 
+
+
+
