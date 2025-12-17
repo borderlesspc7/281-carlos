@@ -59,12 +59,21 @@ export const totvsService = {
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({
-          error: "Unknown error",
-        }));
-        throw new Error(
-          errorData.error || `TOTVS API error: ${response.status}`
-        );
+        let errorMessage = `TOTVS API error: ${response.status}`;
+        
+        try {
+          const errorData = await response.json();
+          // Preservar a mensagem de erro original se disponível
+          errorMessage = errorData.error || errorData.message || errorMessage;
+        } catch {
+          // Se não conseguir parsear JSON, usar a mensagem padrão
+          const errorText = await response.text().catch(() => "");
+          if (errorText) {
+            errorMessage = errorText;
+          }
+        }
+        
+        throw new Error(errorMessage);
       }
 
       return response.json();

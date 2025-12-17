@@ -3,7 +3,6 @@ import {
   collection,
   getDocs,
   query,
-  where,
   orderBy,
 } from "firebase/firestore";
 import type { Producao } from "../types/producao";

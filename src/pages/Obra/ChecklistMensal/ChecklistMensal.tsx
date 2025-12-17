@@ -12,7 +12,7 @@ import { checklistMensalService } from "../../../services/checklistMensalService
 import type { ChecklistMensal } from "../../../types/checklistMensal";
 import "./ChecklistMensal.css";
 
-const ChecklistMensal = () => {
+const ChecklistMensalPage = () => {
   const { obraId } = useParams<{ obraId: string }>();
   const navigate = useNavigate();
   const [checklists, setChecklists] = useState<ChecklistMensal[]>([]);
@@ -259,4 +259,4 @@ const ChecklistMensal = () => {
   );
 };
 
-export default ChecklistMensal;
+export default ChecklistMensalPage;

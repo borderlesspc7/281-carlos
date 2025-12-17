@@ -1,0 +1,447 @@
+.aprovar-contrato-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.aprovar-contrato-header {
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 2rem;
+}
+
+.aprovar-contrato-logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: white;
+}
+
+.aprovar-contrato-logo h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.aprovar-contrato-content {
+  width: 100%;
+  max-width: 900px;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.aprovar-contrato-loading,
+.aprovar-contrato-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  color: white;
+}
+
+.aprovar-contrato-error {
+  background: white;
+  border-radius: 12px;
+  padding: 3rem;
+  color: #333;
+}
+
+.aprovar-contrato-error h2 {
+  margin: 1rem 0;
+  color: #dc2626;
+}
+
+.aprovar-contrato-error p {
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+.btn-back-home {
+  padding: 0.75rem 1.5rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-back-home:hover {
+  background: #5568d3;
+}
+
+.aprovar-contrato-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #dc2626;
+  margin-bottom: 1.5rem;
+}
+
+.aprovar-contrato-already-processed {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.status-icon-large {
+  margin-bottom: 1.5rem;
+}
+
+.status-approved {
+  color: #10b981;
+}
+
+.status-rejected {
+  color: #ef4444;
+}
+
+.aprovar-contrato-already-processed h2 {
+  margin: 1rem 0;
+  color: #333;
+}
+
+.aprovar-contrato-already-processed p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.aprovar-contrato-observations {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.aprovar-contrato-observations strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.aprovar-contrato-observations p {
+  color: #666;
+  margin: 0;
+}
+
+.aprovar-contrato-info-card {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.aprovar-contrato-info-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.aprovar-contrato-info-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.contrato-number {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.aprovar-contrato-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.info-item svg {
+  color: #667eea;
+  flex-shrink: 0;
+}
+
+.info-item div {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.info-value {
+  font-weight: 500;
+  color: #333;
+}
+
+.aprovar-contrato-items {
+  margin-bottom: 2rem;
+}
+
+.aprovar-contrato-items h3 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.aprovar-contrato-items-table {
+  overflow-x: auto;
+}
+
+.aprovar-contrato-items-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.aprovar-contrato-items-table th {
+  background: #f3f4f6;
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.aprovar-contrato-items-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  color: #666;
+}
+
+.aprovar-contrato-items-table tfoot {
+  background: #f9fafb;
+}
+
+.aprovar-contrato-items-table tfoot td {
+  font-weight: 600;
+  color: #333;
+  border-top: 2px solid #e5e7eb;
+}
+
+.aprovar-contrato-actions {
+  margin-bottom: 1.5rem;
+}
+
+.aprovar-contrato-actions-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.aprovar-contrato-actions-header h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.aprovar-contrato-actions-header p {
+  margin: 0;
+  color: #666;
+}
+
+.aprovar-contrato-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-approve,
+.btn-reject {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-approve {
+  background: #10b981;
+  color: white;
+}
+
+.btn-approve:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-reject {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-reject:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.aprovar-contrato-confirm {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.aprovar-contrato-confirm h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.aprovar-contrato-confirm p {
+  margin: 0 0 1.5rem 0;
+  color: #666;
+}
+
+.aprovar-contrato-observations-input {
+  margin-bottom: 1.5rem;
+}
+
+.aprovar-contrato-observations-input label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.aprovar-contrato-observations-input textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  resize: vertical;
+}
+
+.aprovar-contrato-observations-input textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.aprovar-contrato-confirm-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.btn-cancel {
+  padding: 0.75rem 1.5rem;
+  background: white;
+  color: #666;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.btn-confirm-approve,
+.btn-confirm-reject {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-confirm-approve {
+  background: #10b981;
+  color: white;
+}
+
+.btn-confirm-approve:hover {
+  background: #059669;
+}
+
+.btn-confirm-reject {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-confirm-reject:hover {
+  background: #dc2626;
+}
+
+.aprovar-contrato-footer {
+  padding: 1rem;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.aprovar-contrato-footer p {
+  margin: 0;
+  color: #92400e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.spinner-rotate {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .aprovar-contrato-container {
+    padding: 1rem;
+  }
+
+  .aprovar-contrato-content {
+    padding: 1.5rem;
+  }
+
+  .aprovar-contrato-buttons {
+    flex-direction: column;
+  }
+
+  .aprovar-contrato-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

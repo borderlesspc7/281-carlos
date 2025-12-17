@@ -10,6 +10,8 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  onSnapshot,
+  type Unsubscribe,
 } from "firebase/firestore";
 import type {
   EstoqueInsumo,
@@ -115,6 +117,56 @@ export const estoqueInsumoService = {
     } catch (error) {
       console.error("Erro ao deletar estoque:", error);
       throw new Error("Não foi possível deletar o estoque. Tente novamente.");
+    }
+  },
+
+  /**
+   * Observa mudanças em tempo real nos estoques de uma obra
+   * @param obraId - ID da obra
+   * @param callback - Função chamada quando há mudanças
+   * @returns Função para cancelar a assinatura
+   */
+  observeEstoquesByObra(
+    obraId: string,
+    callback: (estoques: EstoqueInsumo[]) => void
+  ): Unsubscribe {
+    try {
+      const q = query(
+        collection(db, COLLECTION_NAME),
+        where("obraId", "==", obraId),
+        orderBy("nome", "asc")
+      );
+
+      return onSnapshot(
+        q,
+        (querySnapshot) => {
+          const estoques: EstoqueInsumo[] = [];
+
+          querySnapshot.forEach((docSnapshot) => {
+            const data = docSnapshot.data();
+            estoques.push({
+              id: docSnapshot.id,
+              obraId: data.obraId,
+              nome: data.nome,
+              unidade: data.unidade,
+              quantidadeDisponivel: data.quantidadeDisponivel,
+              createdAt: data.createdAt?.toDate() || new Date(),
+              updatedAt: data.updatedAt?.toDate() || new Date(),
+            });
+          });
+
+          callback(estoques);
+        },
+        (error) => {
+          console.error("Erro ao observar estoques:", error);
+          callback([]);
+        }
+      );
+    } catch (error) {
+      console.error("Erro ao configurar observador de estoques:", error);
+      callback([]);
+      // Retornar função vazia como fallback
+      return () => {};
     }
   },
 

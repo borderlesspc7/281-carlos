@@ -10,10 +10,10 @@ import CustoVagoes from "../pages/Obra/CustoVagoes/CustoVagoes";
 import EstoqueInsumos from "../pages/Obra/EstoqueInsumos/EstoqueInsumos";
 import Itens from "../pages/Obra/Itens/Itens";
 import ContratoPage from "../pages/Obra/Contrato/Contrato";
-import ChecklistMensal from "../pages/Obra/ChecklistMensal/ChecklistMensal";
+import ChecklistMensalPage from "../pages/Obra/ChecklistMensal/ChecklistMensal";
 import ChecklistMensalForm from "../pages/Obra/ChecklistMensal/ChecklistMensalForm";
 import ChecklistMensalDetails from "../pages/Obra/ChecklistMensal/ChecklistMensalDetails";
-import Medicao from "../pages/Obra/Medicao/Medicao";
+import MedicaoPage from "../pages/Obra/Medicao/Medicao";
 import MedicaoForm from "../pages/Obra/Medicao/MedicaoForm";
 import MedicaoDetails from "../pages/Obra/Medicao/MedicaoDetails";
 import Producao from "../pages/Obra/Producao/Producao";
@@ -22,6 +22,8 @@ import Kits from "../pages/Obra/Kits/Kits";
 import EstoqueKits from "../pages/Obra/EstoqueKits/EstoqueKits";
 import MaterialFaltante from "../pages/Obra/MaterialFaltante/MaterialFaltante";
 import MapaRestricoes from "../pages/Obra/MapaRestricoes/MapaRestricoes";
+import AprovarContrato from "../pages/AprovarContrato/AprovarContrato";
+import AprovarChecklist from "../pages/AprovarChecklist/AprovarChecklist";
 
 export default function AppRoutes() {
   return (
@@ -30,6 +32,9 @@ export default function AppRoutes() {
         <Route path={paths.home} element={<Login />} />
         <Route path={paths.login} element={<Login />} />
         <Route path={paths.register} element={<Register />} />
+        {/* Rotas públicas de aprovação */}
+        <Route path="/aprovar-contrato" element={<AprovarContrato />} />
+        <Route path="/aprovar-checklist" element={<AprovarChecklist />} />
         <Route
           path={paths.dashboard}
           element={
@@ -117,7 +122,7 @@ export default function AppRoutes() {
           element={
             <ProtectedRoutes>
               <ObraLayout>
-                <ChecklistMensal />
+                <ChecklistMensalPage />
               </ObraLayout>
             </ProtectedRoutes>
           }
@@ -147,7 +152,7 @@ export default function AppRoutes() {
           element={
             <ProtectedRoutes>
               <ObraLayout>
-                <Medicao />
+                <MedicaoPage />
               </ObraLayout>
             </ProtectedRoutes>
           }

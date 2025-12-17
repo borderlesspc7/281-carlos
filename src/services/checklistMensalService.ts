@@ -16,9 +16,63 @@ import type {
   ChecklistMensal,
   CreateChecklistMensalData,
   UpdateChecklistStatusData,
+  AprovarChecklistData,
 } from "../types/checklistMensal";
 
 const COLLECTION_NAME = "checklistsMensais";
+
+// Gerar token único para aprovação
+const generateApprovalToken = () => {
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
+};
+
+/**
+ * Envia e-mail de aprovação via Power Automate
+ * (Desabilitado temporariamente - descomentar quando necessário)
+ */
+// async function enviarEmailAprovacao(data: {
+//   checklistId: string;
+//   obraId: string;
+//   mes: number;
+//   ano: number;
+//   aprovadorEmail: string;
+//   aprovadorNome: string;
+//   tokenAprovacao: string;
+//   pdfUrl: string;
+// }): Promise<void> {
+//   try {
+//     const powerAutomateUrl = import.meta.env.VITE_POWER_AUTOMATE_CHECKLIST_APPROVAL_URL;
+
+//     if (!powerAutomateUrl) {
+//       console.warn("URL do Power Automate para checklist não configurada");
+//       return;
+//     }
+
+//     const approvalLink = `${window.location.origin}/aprovar-checklist?token=${data.tokenAprovacao}&checklistId=${data.checklistId}&obraId=${data.obraId}`;
+
+//     const payload = {
+//       checklistId: data.checklistId,
+//       obraId: data.obraId,
+//       mes: data.mes,
+//       ano: data.ano,
+//       aprovadorEmail: data.aprovadorEmail,
+//       aprovadorNome: data.aprovadorNome,
+//       approvalLink,
+//       pdfUrl: data.pdfUrl,
+//     };
+
+//     await fetch(powerAutomateUrl, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(payload),
+//     });
+//   } catch (error) {
+//     console.error("Erro ao enviar e-mail de aprovação:", error);
+//     // Não lançar erro para não bloquear a criação do checklist
+//   }
+// }
 
 /**
  * Envia notificação para webhook do Power Automate (opcional)
@@ -78,23 +132,38 @@ export const checklistMensalService = {
     data: CreateChecklistMensalData
   ): Promise<ChecklistMensal> {
     try {
-      // 1. Upload do PDF para Firebase Storage
-      const storagePath = `checklistsMensais/${obraId}/${Date.now()}_${data.pdfFile.name}`;
-      const storageRef = ref(storage, storagePath);
-      
-      await uploadBytes(storageRef, data.pdfFile);
-      const pdfUrl = await getDownloadURL(storageRef);
+      // 1. Upload do PDF para Firebase Storage (opcional)
+      let pdfUrl = "";
+      let pdfFileName = "";
+      let pdfStoragePath = "";
 
-      // 2. Criar documento no Firestore
+      if (data.pdfFile) {
+        pdfStoragePath = `checklistsMensais/${obraId}/${Date.now()}_${data.pdfFile.name}`;
+        const storageRef = ref(storage, pdfStoragePath);
+        
+        await uploadBytes(storageRef, data.pdfFile);
+        pdfUrl = await getDownloadURL(storageRef);
+        pdfFileName = data.pdfFile.name;
+      }
+
+      // 2. Gerar token de aprovação se aprovador foi informado
+      const tokenAprovacao = data.aprovadorEmail ? generateApprovalToken() : undefined;
+
+      // 3. Criar documento no Firestore
       const checklistData = {
         obraId,
         mes: data.mes,
         ano: data.ano,
         observacoes: data.observacoes,
-        pdfUrl,
-        pdfFileName: data.pdfFile.name,
-        pdfStoragePath: storagePath, // Armazenar o path para facilitar a exclusão
+        pdfUrl: pdfUrl || "",
+        pdfFileName: pdfFileName || null,
+        pdfStoragePath: pdfStoragePath || null, // Armazenar o path para facilitar a exclusão
         status: "pendente" as const,
+        aprovadorNome: data.aprovadorNome || null,
+        aprovadorEmail: data.aprovadorEmail || null,
+        tokenAprovacao: tokenAprovacao || null,
+        dataAprovacao: null,
+        observacoesAprovacao: null,
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
       };
@@ -110,14 +179,31 @@ export const checklistMensalService = {
         mes: data.mes,
         ano: data.ano,
         observacoes: data.observacoes,
-        pdfUrl,
-        pdfFileName: data.pdfFile.name,
+        pdfUrl: pdfUrl || "",
+        pdfFileName: pdfFileName || undefined,
         status: "pendente",
+        aprovadorNome: data.aprovadorNome,
+        aprovadorEmail: data.aprovadorEmail,
+        tokenAprovacao,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
-      // 3. Notificar webhook (opcional)
+      // 4. Enviar e-mail de aprovação se aprovador foi informado (desabilitado por enquanto)
+      // if (data.aprovadorEmail && tokenAprovacao) {
+      //   await enviarEmailAprovacao({
+      //     checklistId: docRef.id,
+      //     obraId,
+      //     mes: data.mes,
+      //     ano: data.ano,
+      //     aprovadorEmail: data.aprovadorEmail,
+      //     aprovadorNome: data.aprovadorNome || "Aprovador",
+      //     tokenAprovacao,
+      //     pdfUrl,
+      //   });
+      // }
+
+      // 5. Notificar webhook (opcional)
       await notifyWebhook("novo_checklist", {
         obraId,
         checklistId: docRef.id,
@@ -145,19 +231,24 @@ export const checklistMensalService = {
       const checklists: ChecklistMensal[] = [];
 
       querySnapshot.forEach((docSnapshot) => {
-        const data = docSnapshot.data();
-        checklists.push({
-          id: docSnapshot.id,
-          obraId: data.obraId,
-          mes: data.mes,
-          ano: data.ano,
-          observacoes: data.observacoes || "",
-          pdfUrl: data.pdfUrl,
-          pdfFileName: data.pdfFileName,
-          status: data.status || "pendente",
-          createdAt: data.createdAt?.toDate() || new Date(),
-          updatedAt: data.updatedAt?.toDate(),
-        });
+      const data = docSnapshot.data();
+      checklists.push({
+        id: docSnapshot.id,
+        obraId: data.obraId,
+        mes: data.mes,
+        ano: data.ano,
+        observacoes: data.observacoes || "",
+        pdfUrl: data.pdfUrl,
+        pdfFileName: data.pdfFileName,
+        status: data.status || "pendente",
+        aprovadorNome: data.aprovadorNome,
+        aprovadorEmail: data.aprovadorEmail,
+        tokenAprovacao: data.tokenAprovacao,
+        dataAprovacao: data.dataAprovacao?.toDate(),
+        observacoesAprovacao: data.observacoesAprovacao,
+        createdAt: data.createdAt?.toDate() || new Date(),
+        updatedAt: data.updatedAt?.toDate(),
+      });
       });
 
       return checklists;
@@ -194,6 +285,11 @@ export const checklistMensalService = {
         pdfUrl: data.pdfUrl,
         pdfFileName: data.pdfFileName,
         status: data.status || "pendente",
+        aprovadorNome: data.aprovadorNome,
+        aprovadorEmail: data.aprovadorEmail,
+        tokenAprovacao: data.tokenAprovacao,
+        dataAprovacao: data.dataAprovacao?.toDate(),
+        observacoesAprovacao: data.observacoesAprovacao,
         createdAt: data.createdAt?.toDate() || new Date(),
         updatedAt: data.updatedAt?.toDate(),
       };
@@ -223,6 +319,8 @@ export const checklistMensalService = {
 
       await updateDoc(docRef, {
         status: data.status,
+        observacoesAprovacao: data.observacoes || null,
+        dataAprovacao: Timestamp.now(),
         updatedAt: Timestamp.now(),
       });
 
@@ -283,6 +381,46 @@ export const checklistMensalService = {
     } catch (error) {
       console.error("Erro ao deletar checklist:", error);
       throw new Error("Não foi possível deletar o checklist. Tente novamente.");
+    }
+  },
+
+  /**
+   * Aprova ou rejeita um checklist via token
+   */
+  async aprovarChecklist(data: AprovarChecklistData): Promise<void> {
+    try {
+      const checklist = await this.getChecklistById(data.obraId, data.checklistId);
+
+      if (!checklist) {
+        throw new Error("Checklist não encontrado");
+      }
+
+      if (checklist.tokenAprovacao !== data.token) {
+        throw new Error("Token de aprovação inválido");
+      }
+
+      if (checklist.status !== "pendente") {
+        throw new Error("Este checklist já foi processado");
+      }
+
+      const docRef = doc(db, "obras", data.obraId, COLLECTION_NAME, data.checklistId);
+      await updateDoc(docRef, {
+        status: data.aprovado ? "aprovado" : "aprovado_com_restricao",
+        dataAprovacao: Timestamp.now(),
+        observacoesAprovacao: data.observacoes || null,
+        updatedAt: Timestamp.now(),
+      });
+
+      // Notificar webhook do Power Automate
+      await notifyWebhook("aprovacao", {
+        obraId: data.obraId,
+        checklistId: data.checklistId,
+        status: data.aprovado ? "aprovado" : "aprovado_com_restricao",
+        pdfUrl: checklist.pdfUrl,
+      });
+    } catch (error) {
+      console.error("Erro ao aprovar checklist:", error);
+      throw error;
     }
   },
 };

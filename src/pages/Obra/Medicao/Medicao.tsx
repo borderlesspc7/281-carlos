@@ -16,7 +16,7 @@ import type { Contrato } from "../../../types/contratos";
 import type { Vagao } from "../../../types/vagao";
 import "./MedicaoList.css";
 
-const Medicao = () => {
+const MedicaoPage = () => {
   const { obraId } = useParams<{ obraId: string }>();
   const navigate = useNavigate();
   const [medicoes, setMedicoes] = useState<Medicao[]>([]);
@@ -231,4 +231,4 @@ const Medicao = () => {
   );
 };
 
-export default Medicao;
+export default MedicaoPage;

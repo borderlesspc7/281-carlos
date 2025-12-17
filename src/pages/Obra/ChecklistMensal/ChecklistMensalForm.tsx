@@ -25,11 +25,8 @@ const ChecklistMensalForm = () => {
     mes: new Date().getMonth() + 1,
     ano: new Date().getFullYear(),
     observacoes: "",
-    // Campos adicionais da empresa (placeholders)
-    responsavel: "",
-    dataVencimento: "",
-    tipoObra: "",
-    etapa: "",
+    aprovadorNome: "",
+    aprovadorEmail: "",
   });
 
   // Obter meses para o select
@@ -80,10 +77,11 @@ const ChecklistMensalForm = () => {
     e.preventDefault();
     if (!obraId) return;
 
-    if (!pdfFile) {
-      setError("Por favor, anexe o arquivo PDF do checklist.");
-      return;
-    }
+    // PDF é opcional por enquanto
+    // if (!pdfFile) {
+    //   setError("Por favor, anexe o arquivo PDF do checklist.");
+    //   return;
+    // }
 
     try {
       setLoading(true);
@@ -93,7 +91,9 @@ const ChecklistMensalForm = () => {
         mes: formData.mes,
         ano: formData.ano,
         observacoes: formData.observacoes,
-        pdfFile,
+        pdfFile: pdfFile || undefined,
+        aprovadorNome: formData.aprovadorNome || undefined,
+        aprovadorEmail: formData.aprovadorEmail || undefined,
       });
 
       navigate(`/obras/${obraId}/checklist-mensal`);
@@ -185,57 +185,31 @@ const ChecklistMensalForm = () => {
             </div>
 
             <div className="checklist-form-group">
-              <label htmlFor="responsavel">Responsável</label>
+              <label htmlFor="aprovadorNome">Nome do Aprovador (opcional)</label>
               <input
-                id="responsavel"
+                id="aprovadorNome"
                 type="text"
-                value={formData.responsavel}
+                value={formData.aprovadorNome}
                 onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, responsavel: e.target.value }))
+                  setFormData((prev) => ({ ...prev, aprovadorNome: e.target.value }))
                 }
-                placeholder="Nome do responsável"
+                placeholder="Ex: João da Silva"
               />
+              <small>Campo opcional para registro do aprovador</small>
             </div>
 
             <div className="checklist-form-group">
-              <label htmlFor="dataVencimento">Data de Vencimento</label>
+              <label htmlFor="aprovadorEmail">E-mail do Aprovador (opcional)</label>
               <input
-                id="dataVencimento"
-                type="date"
-                value={formData.dataVencimento}
+                id="aprovadorEmail"
+                type="email"
+                value={formData.aprovadorEmail}
                 onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    dataVencimento: e.target.value,
-                  }))
+                  setFormData((prev) => ({ ...prev, aprovadorEmail: e.target.value }))
                 }
+                placeholder="Ex: joao@email.com"
               />
-            </div>
-
-            <div className="checklist-form-group">
-              <label htmlFor="tipoObra">Tipo de Obra</label>
-              <input
-                id="tipoObra"
-                type="text"
-                value={formData.tipoObra}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, tipoObra: e.target.value }))
-                }
-                placeholder="Ex: Residencial, Comercial"
-              />
-            </div>
-
-            <div className="checklist-form-group">
-              <label htmlFor="etapa">Etapa</label>
-              <input
-                id="etapa"
-                type="text"
-                value={formData.etapa}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, etapa: e.target.value }))
-                }
-                placeholder="Ex: Fundação, Estrutura"
-              />
+              <small>Campo opcional para registro do e-mail do aprovador</small>
             </div>
 
             <div className="checklist-form-group checklist-form-group-full">
@@ -257,7 +231,7 @@ const ChecklistMensalForm = () => {
         </div>
 
         <div className="checklist-form-section">
-          <h2>Upload de Arquivo PDF</h2>
+          <h2>Upload de Arquivo PDF (Opcional)</h2>
           <div className="checklist-form-upload">
             {!pdfFile ? (
               <label htmlFor="pdf-upload" className="checklist-upload-area">
@@ -309,7 +283,7 @@ const ChecklistMensalForm = () => {
           <button
             type="submit"
             className="btn-submit"
-            disabled={loading || !pdfFile}
+            disabled={loading}
           >
             {loading ? (
               <>

@@ -61,6 +61,8 @@ const ChecklistMensalDetails = () => {
     loadData();
   }, [obraId, checklistId]);
 
+  const [observacoesAprovacao, setObservacoesAprovacao] = useState("");
+
   const handleApprove = async (status: "aprovado" | "aprovado_com_restricao") => {
     if (!obraId || !checklistId) return;
 
@@ -70,6 +72,7 @@ const ChecklistMensalDetails = () => {
 
       await checklistMensalService.updateChecklistStatus(obraId, checklistId, {
         status,
+        observacoes: observacoesAprovacao.trim() || undefined,
       });
 
       // Recarregar dados
@@ -81,6 +84,7 @@ const ChecklistMensalDetails = () => {
         setChecklist(updatedChecklist);
       }
       setApprovalType(null);
+      setObservacoesAprovacao("");
     } catch (err) {
       setError(
         err instanceof Error
@@ -279,10 +283,30 @@ const ChecklistMensalDetails = () => {
                     ? "Deseja aprovar este checklist?"
                     : "Deseja aprovar este checklist com restrição?"}
                 </p>
+                <div className="checklist-approval-observations">
+                  <label htmlFor="observacoes-aprovacao">
+                    Observações {approvalType === "aprovado_com_restricao" && "(recomendado)"}
+                  </label>
+                  <textarea
+                    id="observacoes-aprovacao"
+                    value={observacoesAprovacao}
+                    onChange={(e) => setObservacoesAprovacao(e.target.value)}
+                    placeholder={
+                      approvalType === "aprovado_com_restricao"
+                        ? "Descreva as restrições ou observações sobre este checklist..."
+                        : "Adicione observações sobre sua decisão (opcional)..."
+                    }
+                    rows={4}
+                    disabled={approving}
+                  />
+                </div>
                 <div className="checklist-approval-confirm-actions">
                   <button
                     className="btn-cancel"
-                    onClick={() => setApprovalType(null)}
+                    onClick={() => {
+                      setApprovalType(null);
+                      setObservacoesAprovacao("");
+                    }}
                     disabled={approving}
                   >
                     Cancelar
